@@ -55,5 +55,5 @@ for file in files:
         df.insert(loc=col, column=(name+'_index'), value=res,allow_duplicates = False)
         col += 2
     outputfile = (inputfile.split('/')[1].split('.xls')[0] + '_add_index.xls')
-    df.to_csv(outputfile,sep='\t',index=False)
+    df.to_csv(outputfile,sep='\t',index=False) 
         
