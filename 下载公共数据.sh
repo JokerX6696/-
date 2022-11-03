@@ -41,6 +41,7 @@ do
             echo "$file 下载成功!"
         fi
         if [ $counts -gt 10 ];then
+            echo "$file 下载失败!请手动下载！"
             break
         fi
     done
