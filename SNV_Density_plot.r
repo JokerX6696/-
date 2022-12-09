@@ -6,15 +6,16 @@ library("optparse")
 option_list <- list(
   make_option(c("-i","--indel"),type="character",help="input file :  indel.annotation.xls "),
   make_option(c("-s","--snp"),type="character",help="input file :  snp.annotation.xls "),
+  make_option(c("-p","--pdf"), help="Whether to generate pdf",default = FALSE),
   make_option(c("-o","--output"), help="output dir")
 
 )
-
 opt <- parse_args(OptionParser(option_list=option_list))
 all_args <- names(opt)
 df_indel <- opt$i
 df_snp <- opt$s
 output <- opt$o
+NEED_PDF <- opt$p
 ### 判断参数是否合格
 if(!"output" %in% all_args){
   print("请输入参数 -o 指定输出目录")
@@ -22,6 +23,12 @@ if(!"output" %in% all_args){
 }else if(!"indel" %in% all_args & !"snp" %in% all_args){
   print("-i -s 至少存在一个！")
   q()
+}
+# 如果输出目录不存在，则创建目录
+if (!dir.exists(output)){
+dir.create(output)
+} else {
+    print("Dir already exists!")
 }
 
 ###
@@ -37,13 +44,13 @@ if("snp" %in% all_args){
 }
 
 
-for(type in list){  # 这里必须是先 indel 再 snp！！！！
+for(type in list){
   if(type == "indel"){
     input <- df_indel
   }else if(type == "snp"){
     input <- df_snp
     }
-  print(input)
+  print(input)  # 这里不打印 一下 后续 input 报错，原因未知
   df <- read.table(input,header = T, sep = "\t")
   df <- df[grep("scaff",df$chromosome,invert = T),]  #  删除 scaffold
   df <- data.frame(SNP=df$chromosome,df)  # 随意添加第一列 画图用不到 但格式要正确
@@ -57,25 +64,27 @@ for(type in list){  # 这里必须是先 indel 再 snp！！！！
     data <- data.frame(data[,1:3],data[sample_col])
     colnames(data)[4] <- colnames(df[sample_col])
     Main <- paste("The number of ",TYPE," within 1 Mb window size",sep = "")
-    sample <- sub("\\.",'-',colnames(data)[4])
+    sample <- sub("\\.",'_',colnames(data)[4])
     outfile = paste(output,"/",TYPE,"_Density_",sample,sep="")
     # 需要生成pdf 可以直接取消注释
-    # pdf(file=paste(outfile,".pdf",sep=""),width = 9,height = 6)
-    # CMplot(data,
-    #        type="p",
-    #        plot.type="d",
-    #        bin.size=1e6,
-    #        chr.den.col=c("grey", "black"),
-    #        file="pdf",
-    #        memo="",  # 输出文件名添加内容
-    #        dpi=450,
-    #        file.output=F,
-    #        verbose=TRUE,
-    #        width=9,
-    #        height=6,
-    #        main = Main)  # 修改标题
-    # dev.off()
-    
+    if(NEED_PDF){
+      pdf(file=paste(outfile,".pdf",sep=""),width = 9,height = 6)
+      CMplot(data,
+             type="p",
+             plot.type="d",
+             bin.size=1e6,
+             chr.den.col=c("grey", "black"),
+             file="pdf",
+             memo="",  # 输出文件名添加内容
+             dpi=450,
+             file.output=F,
+             verbose=TRUE,
+             width=9,
+             height=6,
+             main = Main)  # 修改标题
+      dev.off()
+    }
+
     png(file=paste(outfile,".png",sep=""),width = 900,height = 600)
     CMplot(data,type="p",
            plot.type="d",
@@ -92,3 +101,4 @@ for(type in list){  # 这里必须是先 indel 再 snp！！！！
     dev.off()
   }
 }
+
