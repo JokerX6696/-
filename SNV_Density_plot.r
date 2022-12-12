@@ -81,6 +81,7 @@ for(type in list){
              verbose=TRUE,
              width=9,
              height=6,
+             cex.axis=1.5,
              main = Main)  # 修改标题
       dev.off()
     }
@@ -97,6 +98,7 @@ for(type in list){
            verbose=TRUE,
            width=9,
            height=6,
+           cex.axis=1.5,
            main = Main)  # 修改标题
     dev.off()
   }
