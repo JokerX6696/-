@@ -66,7 +66,7 @@ for(type in list){
     Main <- paste("The number of ",TYPE," within 1 Mb window size",sep = "")
     sample <- sub("\\.",'_',colnames(data)[4])
     outfile = paste(output,"/",TYPE,"_Density_",sample,sep="")
-    # 需要生成pdf 可以直接取消注释
+    # 默认不生成pdf，可加参数 -p True
     if(NEED_PDF){
       pdf(file=paste(outfile,".pdf",sep=""),width = 9,height = 6)
       CMplot(data,
