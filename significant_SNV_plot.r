@@ -1,7 +1,7 @@
 rm(list=ls())
 
 # 处理背景
-ref <- read.table('D:/desk/R_tmp/genome.fa.sizes.chrom')
+ref <- read.table('D:/desk/R_tmp/shuima_genome.fa.sizes.chrom')
 colnames(ref) <- c('chr', 'size')
 ref$size <- ref$size/10000000
 
@@ -20,14 +20,14 @@ for(i in ref$size){
 size3 <- c(0,(size2[1:(length(size2)-1)]+space))
 ref$xl <- size3
 ref$xr <- size2
-paths <- c('D:/desk/R_tmp/wild','D:/desk/R_tmp/feral')
+paths <- c('D:/desk/R_tmp/Zhujiang','D:/desk/R_tmp/Old_Honghe','D:/desk/R_tmp/Yangtze')
 for(p in paths){
-  outfile <- paste(p,'/','SNV_plot',sep = "")
+  outfile <- paste('D:/desk/R_tmp/',sub('.*/','',p),'_SNV_plot',sep = "")
   setwd(p)
   ########################################
   #画背景
   sample <- c('altitude','bio1','bio2','bio3','bio4','bio5','bio6','bio7','bio8','bio9','bio10','bio11','bio12','bio13','bio14','bio15','bio16','bio17','bio18','bio19')
-  len <- 20
+  len <- length(sample)
   files <- c('altitude','bio1_29','bio2_29','bio3_29','bio4_29','bio5_29','bio6_29','bio7_29','bio8_29','bio9_29','bio10_29','bio11_29','bio12_29','bio13_29','bio14_29','bio15_29','bio16_29','bio17_29','bio18_29','bio19_29')
   pdf(file=paste(outfile,".pdf",sep=""),width = 9,height = 6)
   a<-dev.cur()
@@ -80,5 +80,11 @@ for(p in paths){
   dev.off()
   rm(a)
 }
+
+
+
+
+
+
 
 
