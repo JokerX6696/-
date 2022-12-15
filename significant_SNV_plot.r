@@ -78,12 +78,7 @@ for(p in paths){
   dev.copy(which=a)
   dev.off()
   dev.off()
+  rm(a)
 }
-
-
-
-
-
-
 
 
