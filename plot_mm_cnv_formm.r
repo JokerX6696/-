@@ -98,13 +98,15 @@ for (variable in ll) {
   x=rep(x,3)
   y=0:2
   lines(x,y,type = "l",lty=2)
-  
 }
 xl <- c(0,xl)
 xl_m <- c()
 for (i in 1:length(xl)) {
   xl_m <- c(xl_m,mean(c(xl[i],xl[i+1])))
 }
+xl_m[length(xl_m)] <- (xl[length(xl)] + m)/2
+xl_m[16:length(xl_m)] <- xl_m[16:length(xl_m)]+1
+xl_m[length(xl_m)] <- m
 axis(1,at=xl_m,labels=unique(df1$chromosome),las=0,col = "NA", col.ticks = "NA")
 dev.copy(which=a)
 dev.off()
