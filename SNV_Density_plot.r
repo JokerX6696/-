@@ -1,6 +1,7 @@
 #!/public/store5/DNA/Test/zhengfuxing/conda/bin/Rscript
 # conda activate /public/store5/DNA/Test/zhengfuxing/conda
 # Rscript plot.r -o ./output -i indel.annotation.xls -s snp.annotation.xls
+.libPaths(c("/public/store5/DNA/Test/zhengfuxing/conda/lib/R/library"，"/data/software/R_package/DNA/3.5"))
 library("optparse")
 # 传参
 option_list <- list(
