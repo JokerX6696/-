@@ -1,13 +1,13 @@
 #!/public/store5/DNA/Test/zhengfuxing/conda/bin/Rscript
 # conda activate /public/store5/DNA/Test/zhengfuxing/conda
-# Rscript plot.r -o ./output -i indel.annotation.xls -s snp.annotation.xls
-.libPaths(c("/public/store5/DNA/Test/zhengfuxing/conda/lib/R/library"，"/data/software/R_package/DNA/3.5"))
+# /public/store5/DNA/Test/zhengfuxing/conda/bin/Rscript plot.r -o ./output -i indel.annotation.xls -s snp.annotation.xls
+.libPaths(c("/public/store5/DNA/Test/zhengfuxing/conda/lib/R/library","/data/software/R_package/DNA/3.5"))
 library("optparse")
 # 传参
 option_list <- list(
   make_option(c("-i","--indel"),type="character",help="input file :  indel.annotation.xls "),
   make_option(c("-s","--snp"),type="character",help="input file :  snp.annotation.xls "),
-  make_option(c("-p","--pdf"), help="Whether to generate pdf",default = FALSE),
+  make_option(c("-p","--pdf"), help="Whether to generate pdf",default = TRUE),
   make_option(c("-o","--output"), help="output dir")
 
 )
