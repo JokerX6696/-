@@ -80,7 +80,7 @@ for(k in (1:length(sample))){
       x_l <- df$pxl[j]
       x_r <- df$pxr[j]
 
-      rect(x_l,y_b,x_r,y_t,border = "black",angle = 30,lwd = 0, col = "black") # 矩形绘制
+      lines(x=c(x_l,x_l),y=c(y_b,y_t)) # 显著位点绘制
     }
   }
 
