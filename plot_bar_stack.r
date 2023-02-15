@@ -20,3 +20,4 @@ ggplot(data = data,mapping = aes(x=factor(variable,levels = rev(unique(data$vari
   theme(axis.text.x = element_text(angle = 0,vjust = 0.5,hjust = 0.5) )
 ggsave(filename = 'All_sample.png',device = 'png',width = 8, height = 6)
 ggsave(filename = 'All_sample.pdf',device = 'pdf',width = 8, height = 6)
+ 
