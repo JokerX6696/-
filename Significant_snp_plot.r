@@ -19,11 +19,6 @@ option_list <- list(
 opt <- parse_args(OptionParser(option_list=option_list))
 
 
-
-
-
-
-
 # 脚本参数赋值
 threshold = 10**-(opt$t)  #  阈值
 out = opt$o
