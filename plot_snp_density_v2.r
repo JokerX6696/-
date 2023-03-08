@@ -143,5 +143,4 @@ for (col in 3:6) {
   
   
   dev.off()
-  
 }
