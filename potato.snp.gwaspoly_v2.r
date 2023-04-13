@@ -1,6 +1,6 @@
 #!/public/store5/DNA/Test/zhengfuxing/conda/bin/Rscript
 # conda activate /public/store5/DNA/Test/zhengfuxing/conda
-.libPaths(c("/public/store5/DNA/Test/zhengfuxing/conda/lib/R/library","/data/software/R_package/DNA/3.5"))
+# unset R_LIBS_SITE
 library(GWASpoly)
 library(data.table)
 library(ggplot2)
