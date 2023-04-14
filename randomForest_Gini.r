@@ -1,10 +1,8 @@
-
 rm(list=ls())
 library('randomForest')
 setwd('D:/desk/R_temp')
 file <- "L7.others_Top30_species.xls"
 
-args <- commandArgs(T)
 library(ggplot2)
 
 abundance<-read.table(file,sep="\t",header=T,row.names=1)
