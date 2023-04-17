@@ -109,7 +109,7 @@ for (variable in ll) {
   lines(x,y,type = "l",lty=2)
   y=c(1.1,2)
   lines(x,y,type = "l",lty=2)
-}
+} 
 xl <- c(0,xl)
 xl_m <- c()
 for (i in 1:length(xl)) {
