@@ -6,6 +6,9 @@ file <- 'cl_Alpha_diversity_Index.xls'
 df <- read.table(file, sep = '\t',header = TRUE)
 df$group_cl <- sub("_.*$","",df$Sample)
 df$group_xf <- sub("_..?\\s$","",df$Sample)
+################"GC","NAC_E","NAC_NE","ICI_E","ICI_NE"
+color_xf <- c("#2E75CE","#9AAF8C","#F4B083","#538035","#C00000")
+color_cl <- c("#2E75CE","#9AAF8C","#C00000")
 ###############################################################
 
 df$group_cl <- factor(df$group_cl,levels = c("GC","NAC","ICI"))
@@ -15,6 +18,7 @@ p <- ggplot(data = df,mapping = aes(x=group_cl,y=Shannon,fill=group_cl)) +
   stat_boxplot(geom = "errorbar", width=0.1,size=0.8) +
   geom_boxplot(outlier.colour="white",size=0.8) +
   xlab("Group") +
+  scale_fill_manual(breaks = c("GC","NAC","ICI"),values = color_cl) +
   theme_bw() +
   theme(panel.background =element_blank(), #背景
         axis.line=element_line(),#坐标轴的线设为显示
@@ -43,6 +47,7 @@ p <- ggplot(data = df,mapping = aes(x=group_xf,y=Shannon,fill=group_xf)) +
   geom_boxplot(outlier.colour="white",size=0.8) +
   xlab("Group") +
   theme_bw() +
+  scale_fill_manual(breaks = c("GC","NAC_E","NAC_NE","ICI_E","ICI_NE"),values = color_xf) +
   theme(panel.background =element_blank(), #背景
         axis.line=element_line(),#坐标轴的线设为显示
         legend.position="none",
@@ -69,6 +74,7 @@ p <- ggplot(data = df,mapping = aes(x=group_cl,y=Chao1,fill=group_cl)) +
   geom_boxplot(outlier.colour="white",size=0.8) +
   xlab("Group") +
   theme_bw() +
+  scale_fill_manual(breaks = c("GC","NAC","ICI"),values = color_cl) +
   theme(panel.background =element_blank(), #背景
         axis.line=element_line(),#坐标轴的线设为显示
         legend.position="none",
@@ -96,6 +102,7 @@ p <- ggplot(data = df,mapping = aes(x=group_xf,y=Chao1,fill=group_xf)) +
   geom_boxplot(outlier.colour="white",size=0.8) +
   xlab("Group") +
   theme_bw() +
+  scale_fill_manual(breaks = c("GC","NAC_E","NAC_NE","ICI_E","ICI_NE"),values = color_xf) +
   theme(panel.background =element_blank(), #背景
         axis.line=element_line(),#坐标轴的线设为显示
         legend.position="none",
@@ -121,6 +128,7 @@ p <- ggplot(data = df,mapping = aes(x=group_cl,y=Simpson,fill=group_cl)) +
   stat_boxplot(geom = "errorbar", width=0.1,size=0.8) +
   geom_boxplot(outlier.colour="white",size=0.8) +
   xlab("Group") +
+  scale_fill_manual(breaks = c("GC","NAC","ICI"),values = color_cl) +
   theme_bw() +
   theme(panel.background =element_blank(), #背景
         axis.line=element_line(),#坐标轴的线设为显示
@@ -149,6 +157,7 @@ p <- ggplot(data = df,mapping = aes(x=group_xf,y=Simpson,fill=group_xf)) +
   geom_boxplot(outlier.colour="white",size=0.8) +
   xlab("Group") +
   theme_bw() +
+  scale_fill_manual(breaks = c("GC","NAC_E","NAC_NE","ICI_E","ICI_NE"),values = color_xf) +
   theme(panel.background =element_blank(), #背景
         axis.line=element_line(),#坐标轴的线设为显示
         legend.position="none",
