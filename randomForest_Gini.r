@@ -5,7 +5,7 @@ file <- "L7.others_Top30_species.xls"
 
 args <- commandArgs(T)
 library(ggplot2)
-
+set.seed(1311)
 abundance<-read.table(file,sep="\t",header=T,row.names=1)
 abundance<-t(abundance)
 abundance<-data.frame(abundance)
