@@ -3,26 +3,6 @@ setwd('D:/desk/temp')
 # para
 point_size = 2
 prefix = paste0('./','jiyu')
-# #!/data/software/Anaconda3/envs/mro-v3.5.1/bin/Rscript
-# #================================================
-# #
-# #         Author: zhangting
-# #          Email: ting.zhang@oebiotech.com
-# #         Create: 2020-12-03 13:05:26
-# #    Description: -
-# #
-# #================================================
-# library(optparse)
-# 
-# option_list = list(
-#   make_option(c("-e", "--evec"), type="character", metavar="character",
-#               help="The .PCA.evec file of PCA analysis"),
-#   make_option(c("-i", "--ind"), type="character", metavar="character",
-#               help="The ind file"),
-#   make_option(c("-o", "--outprefix"), type="character", metavar="character",
-#               help="The prefix of output file")
-# )
-# opt = parse_args(OptionParser(option_list = option_list, usage = "This script is used to plot PCA!"))
 
 # 防止标签重叠,自定义处理函数
 ADjust <- function(tl){
