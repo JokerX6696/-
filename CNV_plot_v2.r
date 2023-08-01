@@ -42,7 +42,7 @@ for(i in 1:nrow(dd) ) {
 my_palette <- t(col2rgb(colorRampPalette(c("blue", "white", "red"))(n = 5)))
 #colors<-color.scale(as.numeric(dat$CN),my_palette[,1],my_palette[,2],my_palette[,3]);
 color.legend<-color.gradient(my_palette[,1],my_palette[,2],my_palette[,3],nslices=31);
-color.legend <- color.legend[-16]
+color.legend <- color.legend[-16] # 这里将白色区域删除
 lev <- seq(-1,1,length.out = 30)
 getcolor <- function(CNV)
 {
