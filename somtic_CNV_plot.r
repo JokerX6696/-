@@ -1,4 +1,4 @@
-rm(list=ls())
+
 # 传参
 library(optparse)
 
@@ -49,7 +49,6 @@ get_df <- function(path){
 }
 
 ### 矩阵读取
-#dd <- read.delim(input,header=T,sep="\t")
 pre_info <- read.delim(info_file,header=F,sep="\t")
 df <- get_df(input_dir)
 ## 将 genome.fa.sizes.chrom 处理成 plussize
@@ -88,7 +87,7 @@ getcolor <- function(CNV)
   if(CNV==0){
     return(color.legend[1])
   }else if(CNV == 1){
-      return(color.legend[2])
+    return(color.legend[2])
   }else if(CNV==3){
     return(color.legend[4])
   }else if(CNV==4){
@@ -133,30 +132,26 @@ chr_pos <- as.numeric((info[,2]/2+info[,3]))/per
 # }
 # chr_pos <- rev(chr_pos_temp)
 ########## 绘制图像 ##############################
-pdf(output,width=16,height=samples_num*2)
-par(mar=c(4,12,3,4),cex.axis = 0.7)
-plot(1:len+2,1:len,type="n",ylim=c(0,len+1),xlim=c(0,60),bty="n",yaxt="n",xaxt="n",xlab="Chromosome",ylab="",xaxs="i");
-axis(2,at=(c(1:len)-0.5),labels=sample,las=2,col = "NA", col.ticks = "NA");
+pdf(output,width=16,height=samples_num/2)
+par(mar=c(6,12,2,4),cex.axis = 0.7)
+plot(1:len+2,1:len,type="n",ylim=c(0,len/4+1),xlim=c(0,60),bty="n",yaxt="n",xaxt="n",xlab="Chromosome",ylab="",xaxs="i");
+axis(2,at=(c(1:len)-0.5)/4,labels=sample,las=2,col = "NA", col.ticks = "NA");
 axis(1,at=(chr_pos),labels=chr,las=1,col = "NA", col.ticks = "NA");
 axis(1,at=(unique(as.numeric(c(max,info[,3])))/per),labels=NA,las=1,col = "black", col.ticks = "black");
 for (i in 1:nrow(dat)) {
   subset<-dat[i,];
   x.left<-subset$start/per;
   x.right<-subset$end/per;
-  y.top<- which(subset$sample == sample);
-  y.bottom <- y.top-1
+  y.top<- which(subset$sample == sample)/4;
+  y.bottom <- y.top-1/4
   col<-as.character(subset$color);
   rect(x.left,y.bottom,x.right,y.top,col=col,border="NA");
 }
 lines(c(0,60), c(0,0), type = 'l')
-lines(c(0,60), c(len,len), type = 'l')
-lines(c(0,0), c(0,len), type = 'l')
-lines(c(60,60), c(0,len), type = 'l')
-color.legend(53,len+0.3,59,len+0.5,c(0,1,2,3,'>=4'),color.legend,gradient="x");
+lines(c(0,60), c(len/4,len/4), type = 'l')
+lines(c(0,0), c(0,len/4), type = 'l')
+lines(c(60,60), c(0,len/4), type = 'l')
+color.legend(53,len/4+0.3,59,len/4+0.5,c(0,1,2,3,'  >=4'),color.legend,gradient="x");
 dev.off()
 ############################################################
-
-
-
-
 
