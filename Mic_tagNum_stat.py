@@ -1,7 +1,8 @@
 #!/bin/env python3
 import os
 import pandas as pd
-wd='/storge1/2bRAD-M/DZOE2023040947-b1/Basic/Analysis/Analysis/Result/Quan'
+import sys
+wd = sys.argv[1]
 samples_dir = []
 for i in os.listdir(wd):
     if 'OENC' not in i:
