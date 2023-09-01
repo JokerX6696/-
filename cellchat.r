@@ -91,3 +91,12 @@ pdf('cellchat_bubble.pdf',width = 9,height = 18)
 netVisual_bubble(cellchat, sources.use = c("1", "2", "3", "4"), 
                  targets.use = 'tumor', remove.isolate = FALSE)
 dev.off()
+
+pdf('cellchat_heatmap.pdf',width = 9,height = 9)
+netVisual_heatmap(cellchat,
+                  color.heatmap = c("white", "firebrick3"),
+                  measure = "weight")
+dev.off()
+
+
+
