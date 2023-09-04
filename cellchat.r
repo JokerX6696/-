@@ -95,8 +95,10 @@ dev.off()
 pdf('cellchat_heatmap.pdf',width = 9,height = 9)
 netVisual_heatmap(cellchat,
                   color.heatmap = c("white", "firebrick3"),
-                  measure = "weight")
+                  measure = "weight",
+                  color.use = c("#7FC97F", "#BEAED4", "#FDC086", "#386CB0",'#DC143C'),
+                  )
 dev.off()
 
-
+saveRDS(cellchat, file = "cellchat_szc.rds")
 
