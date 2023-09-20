@@ -16,7 +16,7 @@ new_obj <- decontX(
 
 col <- new_obj$contamination < 0.2
 
-#    fin_obj <- CreateSeuratObject(counts=new_obj$decontXcounts[,col])
+#    fin_obj <- CreateSeuratObject(counts=new_obj$decontXcounts[,col])+
 fin_obj <- CreateSeuratObject(counts=new_obj$decontXcounts)
 
 
@@ -26,11 +26,3 @@ fin_obj$wrxz <- new_obj$contamination
 fin_obj <- subset(fin_obj,subset= wrxz<0.2)
 
 test_1 <- subset(new_obj,new_obj$contamination<0.2)
-
-# pbmc <- readRDS('D:/desk/志成单细胞/new_celltype_20230403.rds')
-# 
-# 
-# new_obj <- decontX(
-#   x=pbmc@assays$RNA@counts
-# )
-# 
