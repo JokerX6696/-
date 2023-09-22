@@ -112,13 +112,15 @@ def initialize_model(model_name, num_classes, feature_extract, use_pretrained=Tr
         set_parameter_requires_grad(model_ft, feature_extract)
 
         num_ftrs = model_ft.fc.in_features#读取输出数据
-        model_ft.fc = nn.Sequential(nn.Linear(num_ftrs, 102),    #将最后一层全连接层改为102分类 这里对应了 102 种花朵
+        model_ft.fc = nn.Sequential(nn.Linear(num_ftrs, num_classes),    #将最后一层全连接层改为102分类 这里对应了 102 种花朵
                                    nn.LogSoftmax(dim=1))
         input_size = 224
+    
+    return model_ft,input_size
 
 #  模型从官网导入，在数据量较小的情况下，只需要修改最后的一层全连接层，若是分类任务，则将全连接层输出任务数量改为分类数量。
 ### 主动注释
-# model_ft, input_size = initialize_model(model_name, 102, feature_extract, use_pretrained=True)
+model_ft, input_size = initialize_model(model_name, 102, feature_extract, use_pretrained=True)
 
 #GPU计算
 model_ft = model_ft.to(device)
