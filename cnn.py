@@ -1,6 +1,7 @@
-#!D:/application/python/python.exe
+#!D:/Application/python/python.exe
 ########## import
 import os
+
 import matplotlib.pyplot as plt
 #%matplotlib inline
 import numpy as np
@@ -34,7 +35,7 @@ import numpy as np
 
  
 # 定义工作目录
-data_dir = 'D:/desk/cnn实战/test/flower_data/'#定义根目录
+data_dir = 'D:/desk/cnn/cnn/train/flower_data/'#定义根目录
 train_dir = data_dir + '/train'#训练集路径
 valid_dir = data_dir + '/valid'#测试集路径
 
@@ -60,8 +61,8 @@ data_transforms = {
 
 # # 定义超参数
 input_size = 28 # 图像的总尺寸 28*28
-num_classes = 10 # 分类数目
-num_epochs = 3 # 训练的总循环周期
+num_classes = 102 # 分类数目
+num_epochs = 20 # 训练的总循环周期
 batch_size = 8 # 一个批次训练数列 64张图片
 
 # 分类任务数据集构建
@@ -73,7 +74,7 @@ dataloaders = {x: torch.utils.data.DataLoader(image_datasets[x], batch_size=batc
 dataset_sizes = {x: len(image_datasets[x]) for x in ['train', 'valid']}
 class_names = image_datasets['train'].classes
 # 类别 名称 预先统计好
-with open('D:/desk/cnn实战/test/cat_to_name.json', 'r') as f:
+with open('D:/desk/cnn/cnn/train/cat_to_name.json', 'r') as f:
     cat_to_name = json.load(f)
 
 # 迁移学习 直接使用 残差网络
@@ -88,7 +89,9 @@ if not train_on_gpu:
     print('CUDA is not available.  Training on CPU ...')
 else:
     print('CUDA is available!  Training on GPU ...')
-    
+
+
+
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 # 采用GPU训练的方式，若有GPU则采用GPU进行训练。
@@ -115,18 +118,16 @@ def initialize_model(model_name, num_classes, feature_extract, use_pretrained=Tr
         model_ft.fc = nn.Sequential(nn.Linear(num_ftrs, num_classes),    #将最后一层全连接层改为102分类 这里对应了 102 种花朵
                                    nn.LogSoftmax(dim=1))
         input_size = 224
-    
-    return model_ft,input_size
-
+        return model_ft,input_size
 #  模型从官网导入，在数据量较小的情况下，只需要修改最后的一层全连接层，若是分类任务，则将全连接层输出任务数量改为分类数量。
 ### 主动注释
-model_ft, input_size = initialize_model(model_name, 102, feature_extract, use_pretrained=True)
+model_ft, input_size = initialize_model(model_name = model_name, num_classes = 102, feature_extract = feature_extract, use_pretrained=True)
 
 #GPU计算
 model_ft = model_ft.to(device)
 
 # 模型保存
-filename='D:/desk/cnn实战/test/checkpoint.pth'#读取模型保存
+filename='D:/desk/cnn/cnn/traincheckpoint.pth'#读取模型保存
 
 # 是否训练所有层
 params_to_update = model_ft.parameters()
@@ -166,9 +167,9 @@ def train_model(model, dataloaders, criterion, optimizer, num_epochs=25, is_ince
     train_acc_history = []
     train_losses = []
     valid_losses = []
-    LRs = [optimizer.param_groups[0]['lr']]#学习率
+    LRs = [optimizer.param_groups[0]['lr']]  #学习率
 
-    best_model_wts = copy.deepcopy(model.state_dict())#将最好一次存下来
+    best_model_wts = copy.deepcopy(model.state_dict())  #将最好一次存下来
 
     for epoch in range(num_epochs):
         print('Epoch {}/{}'.format(epoch, num_epochs - 1))
@@ -257,42 +258,42 @@ def train_model(model, dataloaders, criterion, optimizer, num_epochs=25, is_ince
 # 开始训练
 model_ft, val_acc_history, train_acc_history, valid_losses, train_losses, LRs  = train_model(model_ft, dataloaders, criterion, optimizer_ft, num_epochs=20, is_inception=(model_name=="inception"))
 
-# 再次训练
-for param in model_ft.parameters():
-    param.requires_grad = True
+# # 再次训练
+# for param in model_ft.parameters():
+#     param.requires_grad = True
 
-# 再继续训练所有的参数，学习率调小一点
-optimizer = optim.Adam(params_to_update, lr=1e-4)
-scheduler = optim.lr_scheduler.StepLR(optimizer_ft, step_size=7, gamma=0.1)
+# # 再继续训练所有的参数，学习率调小一点
+# optimizer = optim.Adam(params_to_update, lr=1e-4)
+# scheduler = optim.lr_scheduler.StepLR(optimizer_ft, step_size=7, gamma=0.1)
 
-# 损失函数
-criterion = nn.NLLLoss()
-# Load the checkpoint
+# # 损失函数
+# criterion = nn.NLLLoss()
+# # Load the checkpoint
 
-checkpoint = torch.load(filename)
-best_acc = checkpoint['best_acc']
-model_ft.load_state_dict(checkpoint['state_dict'])
-optimizer.load_state_dict(checkpoint['optimizer'])
-#model_ft.class_to_idx = checkpoint['mapping']
+# checkpoint = torch.load(filename)
+# best_acc = checkpoint['best_acc']
+# model_ft.load_state_dict(checkpoint['state_dict'])
+# optimizer.load_state_dict(checkpoint['optimizer'])
+# #model_ft.class_to_idx = checkpoint['mapping']
 
-model_ft, val_acc_history, train_acc_history, valid_losses, train_losses, LRs  = train_model(model_ft, dataloaders, criterion, optimizer, num_epochs=10, is_inception=(model_name=="inception"))
-
-
-model_ft, input_size = initialize_model(model_name, 102, feature_extract, use_pretrained=True)#加载训练好的模型
-
-# GPU模式
-model_ft = model_ft.to(device)
-
-# 保存文件的名字
-filename='seriouscheckpoint.pth'
-
-# 加载模型
-checkpoint = torch.load(filename)
-best_acc = checkpoint['best_acc']
-model_ft.load_state_dict(checkpoint['state_dict'])
+# model_ft, val_acc_history, train_acc_history, valid_losses, train_losses, LRs  = train_model(model_ft, dataloaders, criterion, optimizer, num_epochs=10, is_inception=(model_name=="inception"))
 
 
+# model_ft, input_size = initialize_model(model_name, 102, feature_extract, use_pretrained=True)#加载训练好的模型
+
+# # GPU模式
+# model_ft = model_ft.to(device)
+
+# # 保存文件的名字
+# filename='seriouscheckpoint.pth'
+
+# # 加载模型
+# checkpoint = torch.load(filename)
+# best_acc = checkpoint['best_acc']
+# model_ft.load_state_dict(checkpoint['state_dict'])
 
 
 
-print(model_ft)
+
+
+# print(model_ft)
