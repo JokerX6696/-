@@ -1,4 +1,5 @@
 #!/public/store5/DNA/Test/zhengfuxing/conda/bin/python
+# 三种鱼项目， 目前硬盘已损坏 数据丢失
 import os, re
 #### 参数
 Threshold = 0.8
@@ -65,6 +66,7 @@ for sample in samples:
                 print('error;出现了其他情况!')
                 print(line)
                 exit(812)
+
 
     # 鲫鱼 & 鲤鱼
     with open(file_dir + sample + '_j_l_readsname_result.xls')as f:

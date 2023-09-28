@@ -3,7 +3,7 @@ import torch.nn as nn
 import torchvision.transforms as transforms
 from torchvision import models
 from PIL import Image
-#torch.manual_seed(0)
+torch.manual_seed(0)
 # 定义新模型类，该类应与您训练时的结构匹配
 class CustomResNet152(nn.Module):
     def __init__(self, num_classes):
@@ -25,9 +25,8 @@ num_classes = 102  # 请根据您的任务设置类别数目
 custom_model = CustomResNet152(num_classes)
 
 # 加载训练好的权重文件
-custom_model.load_state_dict(torch.load('D:/desk/cnn/cnn/zfx_train2.pth'),strict=False)
+custom_model.load_state_dict(torch.load('D:/desk/cnn/cnn/zfx_train2.pth'),strict=TRUU)
 #######################
-
 
 #######################
 # 设置模型为评估模式
@@ -42,7 +41,7 @@ preprocess = transforms.Compose([
 ])
 
 # 加载并预处理输入图像
-image_path = 'D:/desk/cnn/cnn/123.jpg'
+image_path = 'D:/desk/cnn/cnn/train/flower_data/train/64/image_06137.jpg'
 input_image = Image.open(image_path)
 input_tensor = preprocess(input_image).unsqueeze(0)  # 添加批次维度
 
