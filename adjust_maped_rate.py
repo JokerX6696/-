@@ -68,6 +68,7 @@ for sample in samples:
                 exit(812)
 
 
+
     # 鲫鱼 & 鲤鱼
     with open(file_dir + sample + '_j_l_readsname_result.xls')as f:
         lines = [i.replace('\n', '') for i in f.readlines()]
