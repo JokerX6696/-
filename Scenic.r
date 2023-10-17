@@ -87,12 +87,12 @@ minCell4gene <- round(0.01 * ncol(new_obj))
 exprMat <- GetAssayData(new_obj,slot = 'counts')
 geneKept <- geneFiltering(as.matrix(exprMat),scenicOptions = scenicOptions,minCountsPerGene = 1,minSamples = minCell4gene)
 exprMat_filtered <- exprMat[geneKept,]
-runCorrelation(as.matrix(exprMat_filtered), scenicOptions)
+
 runSCENIC_1_coexNetwork2modules(scenicOptions = scenicOptions)
 tf_names <- getDbTfs(scenicOptions = scenicOptions)
 df_names <- CaseMatch(search = tf_names,match = rownames(new_obj))
 scenicOptions@settings$seed <- 1311
-# runGenie3(as.matrix(exprMat_filtered),scenicOptions = scenicOptions)
-library(reticulate)
-arb.algo = import('arboreto.algo')
-adjacencies <- arb.algo$grnboost2(as.data.frame(t(as.matrix(exprMat_filtered))),tf_names <- tf_names ,seed = 1311)
+# runGenie3(as.matrix(exprMat_filtered[,sample(1:10090,2000)]),scenicOptions = scenicOptions)
+# library(reticulate)
+# arb.algo = import('arboreto.algo')
+# adjacencies <- arb.algo$grnboost2(as.data.frame(t(as.matrix(exprMat_filtered))),tf_names <- tf_names ,seed = 1311)
