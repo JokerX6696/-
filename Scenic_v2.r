@@ -37,7 +37,7 @@ saveRDS(adjacencies,file = getIntName(scenicOptions,'genie3ll'))
 runCorrelation(as.matrix(exprMat_filtered), scenicOptions)
 runSCENIC_1_coexNetwork2modules(scenicOptions = scenicOptions)
 runSCENIC_2_createRegulons(scenicOptions = scenicOptions,coexMethods = 'top10perTarget')
-runSCENIC_3_scoreCells(scenicOptions = scenicOptions,log2(as.matrix(exprMat_filtered)+1))
+runSCENIC_3_scoreCells(scenicOptions = scenicOptions,log2(as.matrix(exprMat_filtered+1)))
 #Seurat_obj[['SCENIC']] = CreateAssayObject(counts=regulonAUC_mat)
 scenicOptions <- runSCENIC_4_aucell_binarize(scenicOptions = scenicOptions)
 # 图片展示
@@ -77,5 +77,42 @@ for (gene in ReegulonName_BIN) {
   
 }
 # 小提琴和山脊图
+AUCmatrix <- readRDS('int/3.4_regulonAuc.Rds')
+AUCmatrix <- AUCmatrix@assays@data@listData$AUC
+AUCmatrix <- data.frame(t(AUCmatrix), check.name=F)
+RegulonName_AUC <- colnames(AUCmatrix)
+RegulonName_AUC <- gsub('\\.\\.','_',RegulonName_AUC)
+RegulonName_AUC <- gsub('\\.','',RegulonName_AUC)
+colnames(AUCmatrix) <- RegulonName_AUC
+scRNAauc <- AddMetaData(Seurat_obj,AUCmatrix)
+# plot
+for (gene in RegulonName_AUC) {  # 最后一次循环可以无视
+  p1 <- RidgePlot(scRNAauc,features = gene,group.by = 'sub_celltype') + theme(legend.position = 'none')
+  p2 <- VlnPlot(scRNAauc,features = gene,pt.size = 0,group.by = 'sub_celltype') + theme(legend.position = 'none')
+  p <- p1 + p2
+  ggsave(filename = paste0(gene,"_AUC_xtq_sj.pdf"),device = 'pdf',plot = p,width = 10,height = 8)
+  
+}
+# 气泡图
+regulonAUC <- loadInt(scenicOptions,'aucell_regulonAUC')
+Idents(Seurat_obj) <- Seurat_obj@meta.data$sub_celltype
+cellInfo <- data.frame(Celltype=Idents(Seurat_obj))
+rss <- calcRSS(AUC=getAUC(regulonAUC),cellAnnotation = cellInfo[colnames(regulonAUC,'celltype'),])
+rss <- rss[1:30,]
+p <- plotRSS(rss,
+             col.low = '#473172',
+             col.mid = '#20988b',
+             col.high = '#f9e920'
+)
+pdf('rssPlot.pdf',width = 6,height = 10)
+p
+dev.off()
+# 
+for (g in colnames(rss)) {
+  out <- paste0(g,'_rssPlot.pdf')
+  p <- plotRSS_oneSet(rss,n = 5,setName = g)
+
+  ggsave(filename = out,plot = p,device = 'pdf',width = 6,height = 9)
+}
 
 
