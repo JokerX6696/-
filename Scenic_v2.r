@@ -1,4 +1,5 @@
 rm(list=ls())
+# 项目号 DQD20227800
 setwd('D:/desk/志成单细胞/Scenic')
 dir.create(tempdir())
 #### 引入需要的R包
