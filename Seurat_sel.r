@@ -1,0 +1,5 @@
+rm(list=ls())
+obj <- readRDS('in_2_out.data_ob_v3.rds')
+new <- subset(obj,subset = sub_celltype %in% c('Goblet_cells', 'Naive_B_cells', 'Plasma_cells', 'Natural_killer_T_cells', 'MAI_T_cells' ) )
+saveRDS(new,file = 'zfxmake.rds')
+f <- readRDS( 'test.rds')
