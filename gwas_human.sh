@@ -23,3 +23,36 @@
 cp result/05.Plink/GWAS/merge/plink.ped result/05.Plink/GWAS/merge/plink_Scaffold.ped
 cp result/05.Plink/GWAS/merge/plink.map result/05.Plink/GWAS/merge/plink_Scaffold.map
 awk '{{print "Scaffold"$0}}' result/05.Plink/GWAS/merge/plink.map > result/05.Plink/GWAS/merge/plink_Scaffold.map
+
+
+# prune
+# 用plink(v1.90b6.7)软件过滤出连锁平衡的位点(.in文件中)
+/data/software/plink/1.90b6.7/plink \
+--threads 8 \
+--memory 50000 \
+--file result/05.Plink/GWAS/merge/plink_Scaffold \
+--indep-pairwise 50 5 0.5 \
+--aec \
+--out result/05.Plink/GWAS/prune/plink_Scaffold
+
+# 用plink(v1.90b6.7)软件根据.in文件从原始的ped和map文件中提取出连锁平衡的位点(.prune.ped和.prune.map文件),用于后续的群体结构分析
+
+/data/software/plink/1.90b6.7/plink \
+--threads 8 \
+--allow-extra-chr \
+--memory 14000 \
+--file result/05.Plink/GWAS/merge/plink_Scaffold \
+--extract result/05.Plink/GWAS/prune/plink_Scaffold.prune.in \
+--recode \
+--out result/05.Plink/GWAS/prune/plink_Scaffold.prune
+
+cp result/05.Plink/GWAS/prune/plink_Scaffold.prune.ped result/05.Plink/GWAS/prune_PCA/plink.prune.ped
+cp result/05.Plink/GWAS/prune/plink_Scaffold.prune.map result/05.Plink/GWAS/prune_PCA/plink.prune.map
+sed -i "s#Scaffold##g" result/05.Plink/GWAS/prune_PCA/plink.prune.map
+
+########处理表型数据#######
+
+/data/software/Anaconda3/envs/mro-v3.5.1/bin/Rscript scripts/GWAS/Trait_check.r \
+-r Phenotype_Data/raw_trait_data.txt \
+-p Phenotype_Data/traits_distribution \
+-c Phenotype_Data/clean_trait_data.txt
