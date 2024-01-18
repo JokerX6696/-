@@ -9,3 +9,17 @@
 
 /data/software/htslib/htslib-v1.9/bin/bgzip result/03.variants/GWAS_vcf/GWAS.snp.vcf 
 /data/software/htslib/htslib-v1.9/bin/tabix result/03.variants/GWAS_vcf/GWAS.snp.vcf.gz
+
+# GWAS_vcf_to_ped
+
+/data/software/vcftools/0.1.17/bin/vcftools \
+--gzvcf result/03.variants/GWAS_vcf/GWAS.snp.vcf.gz \
+--chrom-map result/utils/chrom_map_GWAS.txt \
+--maf 0.05 \
+--plink \
+--out result/05.Plink/GWAS/merge/plink
+
+
+cp result/05.Plink/GWAS/merge/plink.ped result/05.Plink/GWAS/merge/plink_Scaffold.ped
+cp result/05.Plink/GWAS/merge/plink.map result/05.Plink/GWAS/merge/plink_Scaffold.map
+awk '{{print "Scaffold"$0}}' result/05.Plink/GWAS/merge/plink.map > result/05.Plink/GWAS/merge/plink_Scaffold.map
