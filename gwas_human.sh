@@ -56,3 +56,26 @@ sed -i "s#Scaffold##g" result/05.Plink/GWAS/prune_PCA/plink.prune.map
 -r Phenotype_Data/raw_trait_data.txt \
 -p Phenotype_Data/traits_distribution \
 -c Phenotype_Data/clean_trait_data.txt
+
+
+#######处理基因型数据########
+/data/software/plink/1.90b6.7/plink \
+--threads 8 \
+--file result/05.Plink/GWAS/merge/plink \
+--recode 12 \
+--transpose \
+--aec \
+--out result/05.Plink/GWAS/merge/plink_GWAS
+
+# kinship_matrix
+# pdi=`pwd`
+# ln -s $pdi/result/05.Plink/GWAS/merge/plink_GWAS.tped result/07.GWAS/PLINK
+# ln -s $pdi/result/05.Plink/GWAS/merge/plink_GWAS.tfam result/07.GWAS/PLINK
+# cd result/07.GWAS/PLINK
+# {emmax_kin} -v -d 10 {params.prefix} 
+
+
+
+/data/software/plink/1.90b6.7/plink --file result/05.Plink/GWAS/merge/plink_GWAS --make-bed --pheno Phenotype_Data/lisan_trait_data.txt --out output_data
+
+/data/software/plink/1.90b6.7/plink --bfile output_data --allow-no-sex --assoc --out result/07.GWAS/ret/output_results
