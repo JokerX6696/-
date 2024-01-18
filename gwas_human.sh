@@ -67,6 +67,7 @@ sed -i "s#Scaffold##g" result/05.Plink/GWAS/prune_PCA/plink.prune.map
 --aec \
 --out result/05.Plink/GWAS/merge/plink_GWAS
 
+# 这里暂时不考虑亲缘关系
 # kinship_matrix
 # pdi=`pwd`
 # ln -s $pdi/result/05.Plink/GWAS/merge/plink_GWAS.tped result/07.GWAS/PLINK
