@@ -67,7 +67,6 @@ sed -i "s#Scaffold##g" result/05.Plink/GWAS/prune_PCA/plink.prune.map
 --aec \
 --out result/05.Plink/GWAS/merge/plink_GWAS
 
-# 这里暂时不考虑亲缘关系
 # kinship_matrix
 # pdi=`pwd`
 # ln -s $pdi/result/05.Plink/GWAS/merge/plink_GWAS.tped result/07.GWAS/PLINK
@@ -80,3 +79,10 @@ sed -i "s#Scaffold##g" result/05.Plink/GWAS/prune_PCA/plink.prune.map
 /data/software/plink/1.90b6.7/plink --file result/05.Plink/GWAS/merge/plink_GWAS --make-bed --pheno Phenotype_Data/lisan_trait_data.txt --out output_data
 
 /data/software/plink/1.90b6.7/plink --bfile output_data --allow-no-sex --assoc --out result/07.GWAS/ret/output_results
+
+
+# 可视化
+/data/software/Anaconda3/envs/mro-v3.5.1/bin/Rscript manhantan_qq_v2.r
+
+
+
