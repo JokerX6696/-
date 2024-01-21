@@ -1,3 +1,4 @@
+# 手动处理 gwas 人类 离散型表型
 #  获取 gwas snp vcf
 /data/software/conda_envs/snakemake_v6.1.1/bin/python scripts/3.Var/vcf_filter.py \
 -i result/03.variants/vcf_filter_pop/Filter.snp.vcf.gz \
